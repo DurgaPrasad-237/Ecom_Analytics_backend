@@ -1,0 +1,47 @@
+stages:
+  extract:
+    cmd: python ETL/extract.py
+    deps:
+      - ETL/extract.py
+    outs:
+      - data/raw
+
+  transform:
+    cmd: python ETL/transform/transformation_pipeline.py
+    deps:
+      - ETL/transform/transformation_pipeline.py
+      - ETL/transform/feature_engineering.py
+      - data/raw
+    outs:
+      - data/processed
+
+  # load_dim_date:
+  #   cmd : python -m ETL.load.load_dim_date
+  #   deps:
+  #     - ETL/load/load_dim_date.py
+  #     - data/processed/orders_processed.csv
+
+  # load_dim_products:
+  #   cmd: python -m ETL.load.load_dim_products
+  #   deps:
+  #     - ETL/load/load_dim_products.py
+  #     - data/processed/products_processed.csv
+
+  # load_dim_customers:
+  #   cmd: python -m ETL.load.load_dim_customers
+  #   deps:
+  #     - ETL/load/load_dim_customers.py
+  #     - data/processed/customers_processed.csv
+
+  # load_dim_shipping:
+  #   cmd: python -m ETL.load.load_dim_shipping
+  #   deps:
+  #     - ETL/load/load_dim_shipping.py
+  #     - data/processed/shipments_processed.csv
+
+  # load_fact_sales:
+  #   cmd: python -m ETL.load.load_fact_sales
+  #   deps:
+  #     - ETL/load/load_fact_sales.py
+  #     - data/processed/fact_sales.csv
+      

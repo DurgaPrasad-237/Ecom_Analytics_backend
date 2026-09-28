@@ -1,0 +1,92 @@
+schema: '2.0'
+stages:
+  extract:
+    cmd: python ETL/extract.py
+    deps:
+    - path: ETL/extract.py
+      hash: md5
+      md5: 8b90d42039f04c09fca7d84ef0d231b0
+      size: 1534
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: e5089638028ddf9702b94367b655efae.dir
+      size: 56815869
+      nfiles: 11
+  transform:
+    cmd: python ETL/transform/transformation_pipeline.py
+    deps:
+    - path: ETL/transform/feature_engineering.py
+      hash: md5
+      md5: 9eadc93737171daf1205783adda4436c
+      size: 3159
+    - path: ETL/transform/transformation_pipeline.py
+      hash: md5
+      md5: 5aa6af62c65529e38bd31dd92c5f42e9
+      size: 25019
+    - path: data/raw
+      hash: md5
+      md5: e5089638028ddf9702b94367b655efae.dir
+      size: 56815869
+      nfiles: 11
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: ec255f71c70884aeb56024df74c0ee71.dir
+      size: 144973016
+      nfiles: 15
+  load_dim_date:
+    cmd: python -m ETL.load.load_dim_date
+    deps:
+    - path: ETL/load/load_dim_date.py
+      hash: md5
+      md5: 08c33dbd5c75dbf4917443732142e139
+      size: 3633
+    - path: data/processed/orders_processed.csv
+      hash: md5
+      md5: 7451b9806f353af91a83c4559fe87e9f
+      size: 17079782
+  load_dim_products:
+    cmd: python -m ETL.load.load_dim_products
+    deps:
+    - path: ETL/load/load_dim_products.py
+      hash: md5
+      md5: 538f39228a0fbac4d55e1a9bdeeba2d6
+      size: 4540
+    - path: data/processed/products_processed.csv
+      hash: md5
+      md5: 57577758b05872b8170cdf2b68300b7b
+      size: 71947
+  load_dim_customers:
+    cmd: python -m ETL.load.load_dim_customers
+    deps:
+    - path: ETL/load/load_dim_customers.py
+      hash: md5
+      md5: 043ce08637b35d369313d7472ca82e46
+      size: 3748
+    - path: data/processed/customers_processed.csv
+      hash: md5
+      md5: caa52f57195de62778b84ee25725751a
+      size: 3999040
+  load_dim_shipping:
+    cmd: python -m ETL.load.load_dim_shipping
+    deps:
+    - path: ETL/load/load_dim_shipping.py
+      hash: md5
+      md5: 4cc0e5bde59b23f011f4dbfbd7c96aef
+      size: 2366
+    - path: data/processed/shipments_processed.csv
+      hash: md5
+      md5: 50948d9364c6170f4857d33c462f090d
+      size: 9173136
+  load_fact_sales:
+    cmd: python -m ETL.load.load_fact_sales
+    deps:
+    - path: ETL/load/load_fact_sales.py
+      hash: md5
+      md5: 815e25ac7c6afb5617f076e56d2820aa
+      size: 8073
+    - path: data/processed/fact_sales.csv
+      hash: md5
+      md5: 337517d768aa4a7d030108cc287c771f
+      size: 97641566

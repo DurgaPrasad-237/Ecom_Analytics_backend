@@ -1,0 +1,8 @@
+venv/
+data/
+.streamlit/
+.env
+.vscode/
+Notebook/
+__pycache__/
+*.pyc
