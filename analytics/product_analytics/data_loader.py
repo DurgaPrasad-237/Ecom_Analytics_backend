@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
+
 from analytics.product_analytics.datahandling import handle_return_status
 from analytics.product_analytics.datahandling import change_dates_datatype
 

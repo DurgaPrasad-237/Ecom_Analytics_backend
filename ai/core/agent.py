@@ -28,6 +28,17 @@ from ai.product.prompts import (
     INSIGHT_INSTRUCTION as PRODUCT_INSIGHT_INSTRUCTION,
 )
 
+from ai.sales.tools import (
+    SALES_TOOLS,
+    SALES_TOOL_FUNCTIONS,
+)
+
+from ai.sales.prompts import (
+    INSIGHT_INSTRUCTION as SALES_INSIGHT_INSTRUCTION,
+    ANSWER_INSTRUCTION as SALES_ANSWER_INSTRUCTION,
+    INSTRUCTION_CONTENT as SALES_INSTRUCTION_CONTENT
+    
+)
 
 class Agent:
 
@@ -82,6 +93,15 @@ class Agent:
                 "instruction": PRODUCT_INSTRUCTION_CONTENT,
                 "answer_instruction": PRODUCT_ANSWER_INSTRUCTION,
                 "insight_instruction": PRODUCT_INSIGHT_INSTRUCTION,
+            }
+
+        elif self.domain == "sales":
+            return {
+                "tools": SALES_TOOLS,
+                "tool_functions": SALES_TOOL_FUNCTIONS,
+                "instruction": SALES_INSTRUCTION_CONTENT,
+                "answer_instruction": SALES_ANSWER_INSTRUCTION,
+                "insight_instruction": SALES_INSIGHT_INSTRUCTION
             }
 
         else:
