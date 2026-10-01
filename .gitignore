@@ -6,3 +6,4 @@ data/
 Notebook/
 __pycache__/
 *.pyc
+app/
