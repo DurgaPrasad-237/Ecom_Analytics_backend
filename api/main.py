@@ -14,7 +14,10 @@ app = FastAPI(
     version="1.0.0",
 )
 
-origin = ["http://localhost:5173"]
+origin = [
+    "http://localhost:5173",
+    "https://indian-ecom-analytics-frontend.vercel.app",
+]
 
 app.add_middleware(
     CORSMiddleware,
