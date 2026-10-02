@@ -1,5 +1,5 @@
 venv/
-data/
+# data/
 .streamlit/
 .env
 .vscode/
