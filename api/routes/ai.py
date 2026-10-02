@@ -2,6 +2,8 @@ from ai.core.agent import Agent
 from fastapi import APIRouter,Request
 import os
 from dotenv import load_dotenv
+from pydantic import BaseModel,Field
+from typing import List, Dict, Any
 load_dotenv()
 router = APIRouter(
     prefix="/api/ai",
@@ -24,18 +26,18 @@ sales_agent = Agent(
     domain="sales"
 )
 
+class ChatRequest(BaseModel):
+    question: str
+    chat_history: List[Dict[str, Any]] = Field(default_factory=list)
+
+
+
 @router.post("/customer-chat")
-async def customerChat(req: Request,question:str):
-    # question = req.query_params.get("question")
-
-    # data = await req.json()
-
-    # question = data["question"]
-    # chat_history = data.get("chat_history", [])
+async def customerChat(data: ChatRequest):
 
     result = agent.ask(
-        question=question,
-        # chat_history=chat_history,
+        question=data.question,
+        chat_history=data.chat_history,
         provider="openai",
     )
 
@@ -43,19 +45,11 @@ async def customerChat(req: Request,question:str):
 
 
 @router.post("/product-chat")
-async def productChat(req: Request):
-
-    data = await req.json()
-
-    question = data["question"]
-    chat_history = data.get("chat_history", [])
-
-    print(question)
-    print(chat_history)
+async def productChat(data: ChatRequest):
 
     result = product_agent.ask(
-        question=question,
-        chat_history=chat_history,
+        question=data.question,
+        chat_history=data.chat_history,
         provider="openai",
     )
 
@@ -63,19 +57,11 @@ async def productChat(req: Request):
 
 
 @router.post("/sales-chat")
-async def SalesChat(req: Request):
-
-    data = await req.json()
-
-    question = data["question"]
-    chat_history = data.get("chat_history", [])
-
-    print(question)
-    print(chat_history)
+async def SalesChat(data: ChatRequest):
 
     result = sales_agent.ask(
-        question=question,
-        chat_history=chat_history,
+        question=data.question,
+        chat_history=data.chat_history,
         provider="openai",
     )
 
