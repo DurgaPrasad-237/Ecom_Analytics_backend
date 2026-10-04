@@ -16,7 +16,7 @@ stages:
       - data/processed
 
   # load_dim_date:
-  #   cmd : python -m ETL.load.load_dim_date
+  #   cmd: python -m ETL.load.load_dim_date
   #   deps:
   #     - ETL/load/load_dim_date.py
   #     - data/processed/orders_processed.csv
@@ -44,4 +44,74 @@ stages:
   #   deps:
   #     - ETL/load/load_fact_sales.py
   #     - data/processed/fact_sales.csv
-      
+
+  model_training:
+    cmd: python ML/DemandForecasting/train.py
+    deps:
+      - ML/DemandForecasting/train.py
+      - ML/DemandForecasting/feature_engineering.py
+      - data/processed/orders_processed.csv
+      - data/processed/order_items_processed.csv
+      - data/processed/products_processed.csv
+    outs:
+      - ML/DemandForecasting/models/linear_regression_baseline.pkl
+      - ML/DemandForecasting/models/ridge_baseline.pkl
+      - ML/DemandForecasting/models/lasso_baseline.pkl
+      - ML/DemandForecasting/models/decision_tree_baseline.pkl
+      - ML/DemandForecasting/models/xgboost_baseline.pkl
+      - ML/DemandForecasting/models/elasticnet_baseline.pkl
+      - ML/DemandForecasting/models/ridge_tuned.pkl
+      - ML/DemandForecasting/models/elasticnet_tuned.pkl
+      - ML/DemandForecasting/models/xgboost_tuned.pkl
+
+  model_evaluation:
+    cmd: python ML/DemandForecasting/evaluate.py
+    deps:
+      - ML/DemandForecasting/evaluate.py
+      - ML/DemandForecasting/models/linear_regression_baseline.pkl
+      - ML/DemandForecasting/models/ridge_baseline.pkl
+      - ML/DemandForecasting/models/lasso_baseline.pkl
+      - ML/DemandForecasting/models/decision_tree_baseline.pkl
+      - ML/DemandForecasting/models/xgboost_baseline.pkl
+      - ML/DemandForecasting/models/elasticnet_baseline.pkl
+      - ML/DemandForecasting/models/ridge_tuned.pkl
+      - ML/DemandForecasting/models/elasticnet_tuned.pkl
+      - ML/DemandForecasting/models/xgboost_tuned.pkl
+      - data/processed/orders_processed.csv
+      - data/processed/order_items_processed.csv
+      - data/processed/products_processed.csv
+    outs:
+      - ML/DemandForecasting/results/2025_model_evaluation.csv
+    metrics:
+      - ML/DemandForecasting/results/metrics.json
+
+  final_model_training:
+    cmd: python ML/DemandForecasting/final_train.py
+    deps:
+      - ML/DemandForecasting/final_train.py
+      - ML/DemandForecasting/feature_engineering.py
+      - data/processed/orders_processed.csv
+      - data/processed/order_items_processed.csv
+      - data/processed/products_processed.csv
+    outs:
+      - ML/DemandForecasting/models/final_demand_forecasting_elasticnet.pkl
+
+  demand_forecast:
+    cmd: python ML/DemandForecasting/forecast.py
+    deps:
+      - ML/DemandForecasting/forecast.py
+      - ML/DemandForecasting/feature_engineering.py
+      - ML/DemandForecasting/models/final_demand_forecasting_elasticnet.pkl
+      - data/processed/orders_processed.csv
+      - data/processed/order_items_processed.csv
+      - data/processed/products_processed.csv
+    outs:
+      - ML/DemandForecasting/results/2026_demand_forecast.csv
+
+  inventory_planning:
+    cmd: python ML/inventory_planning/inventory_planning.py
+    deps:
+      - ML/inventory_planning/inventory_planning.py
+      - ML/DemandForecasting/results/2026_demand_forecast.csv
+    outs:
+      - ML/inventory_planning/results/inventory_plan_2026.csv
