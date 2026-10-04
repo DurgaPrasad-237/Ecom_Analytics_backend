@@ -18,12 +18,12 @@ stages:
     deps:
     - path: ETL/transform/feature_engineering.py
       hash: md5
-      md5: 9eadc93737171daf1205783adda4436c
-      size: 3159
+      md5: 0e055875a2c4ab05ca624235679ce8d1
+      size: 5161
     - path: ETL/transform/transformation_pipeline.py
       hash: md5
-      md5: 5aa6af62c65529e38bd31dd92c5f42e9
-      size: 25019
+      md5: 67effba07fc6354a76b7cd811ce8ca8a
+      size: 6500
     - path: data/raw
       hash: md5
       md5: e5089638028ddf9702b94367b655efae.dir
@@ -32,9 +32,9 @@ stages:
     outs:
     - path: data/processed
       hash: md5
-      md5: ec255f71c70884aeb56024df74c0ee71.dir
-      size: 144973016
-      nfiles: 15
+      md5: 79f6ba455822d1297fc54a5f60c25a37.dir
+      size: 65341404
+      nfiles: 8
   load_dim_date:
     cmd: python -m ETL.load.load_dim_date
     deps:
@@ -90,3 +90,203 @@ stages:
       hash: md5
       md5: 337517d768aa4a7d030108cc287c771f
       size: 97641566
+  model_training:
+    cmd: python ML/DemandForecasting/train.py
+    deps:
+    - path: ML/DemandForecasting/feature_engineering.py
+      hash: md5
+      md5: fa292b8bf7015e040c34e8ada7648414
+      size: 1397
+    - path: ML/DemandForecasting/train.py
+      hash: md5
+      md5: 48a5e19aeb7e17dac528bcef4489ac01
+      size: 22847
+    - path: data/processed/order_items_processed.csv
+      hash: md5
+      md5: 179cebb605aae2d51c7780d7edd5068c
+      size: 21662736
+    - path: data/processed/orders_processed.csv
+      hash: md5
+      md5: 7451b9806f353af91a83c4559fe87e9f
+      size: 17079782
+    - path: data/processed/products_processed.csv
+      hash: md5
+      md5: 16963e96ab25342eefa7b71cb397f740
+      size: 85333
+    outs:
+    - path: ML/DemandForecasting/models/decision_tree_baseline.pkl
+      hash: md5
+      md5: 460f6a55fb201ebfd7e76a9e146b770c
+      size: 15797756
+    - path: ML/DemandForecasting/models/elasticnet_baseline.pkl
+      hash: md5
+      md5: 093ff554463304c41b798b47d66c29a3
+      size: 24553
+    - path: ML/DemandForecasting/models/elasticnet_tuned.pkl
+      hash: md5
+      md5: 093ff554463304c41b798b47d66c29a3
+      size: 24553
+    - path: ML/DemandForecasting/models/lasso_baseline.pkl
+      hash: md5
+      md5: 8997457b4125c629d63bf144893587bf
+      size: 24537
+    - path: ML/DemandForecasting/models/linear_regression_baseline.pkl
+      hash: md5
+      md5: 5493dca23ad7a4560fbc99f98109284f
+      size: 24378
+    - path: ML/DemandForecasting/models/ridge_baseline.pkl
+      hash: md5
+      md5: 937c72a81868e37ed6a5acb3b9435626
+      size: 24459
+    - path: ML/DemandForecasting/models/ridge_tuned.pkl
+      hash: md5
+      md5: 769800fb6f17227a15b1b17da13ad9c7
+      size: 24459
+    - path: ML/DemandForecasting/models/xgboost_baseline.pkl
+      hash: md5
+      md5: da16573ddba3064f933d154b1994c97f
+      size: 903133
+    - path: ML/DemandForecasting/models/xgboost_tuned.pkl
+      hash: md5
+      md5: 824db56f0967b025f36aa08c94c98595
+      size: 5678806
+  model_evaluation:
+    cmd: python ML/DemandForecasting/evaluation.py
+    deps:
+    - path: ML/DemandForecasting/evaluation.py
+      hash: md5
+      md5: e9791f36a529e5718125e8a8700a450e
+      size: 13774
+    - path: ML/DemandForecasting/models/decision_tree_baseline.pkl
+      hash: md5
+      md5: 460f6a55fb201ebfd7e76a9e146b770c
+      size: 15797756
+    - path: ML/DemandForecasting/models/elasticnet_baseline.pkl
+      hash: md5
+      md5: 093ff554463304c41b798b47d66c29a3
+      size: 24553
+    - path: ML/DemandForecasting/models/elasticnet_tuned.pkl
+      hash: md5
+      md5: 093ff554463304c41b798b47d66c29a3
+      size: 24553
+    - path: ML/DemandForecasting/models/lasso_baseline.pkl
+      hash: md5
+      md5: 8997457b4125c629d63bf144893587bf
+      size: 24537
+    - path: ML/DemandForecasting/models/linear_regression_baseline.pkl
+      hash: md5
+      md5: 5493dca23ad7a4560fbc99f98109284f
+      size: 24378
+    - path: ML/DemandForecasting/models/ridge_baseline.pkl
+      hash: md5
+      md5: 937c72a81868e37ed6a5acb3b9435626
+      size: 24459
+    - path: ML/DemandForecasting/models/ridge_tuned.pkl
+      hash: md5
+      md5: 769800fb6f17227a15b1b17da13ad9c7
+      size: 24459
+    - path: ML/DemandForecasting/models/xgboost_baseline.pkl
+      hash: md5
+      md5: da16573ddba3064f933d154b1994c97f
+      size: 903133
+    - path: ML/DemandForecasting/models/xgboost_tuned.pkl
+      hash: md5
+      md5: 824db56f0967b025f36aa08c94c98595
+      size: 5678806
+    - path: data/processed/order_items_processed.csv
+      hash: md5
+      md5: 179cebb605aae2d51c7780d7edd5068c
+      size: 21662736
+    - path: data/processed/orders_processed.csv
+      hash: md5
+      md5: 7451b9806f353af91a83c4559fe87e9f
+      size: 17079782
+    - path: data/processed/products_processed.csv
+      hash: md5
+      md5: 16963e96ab25342eefa7b71cb397f740
+      size: 85333
+    outs:
+    - path: ML/DemandForecasting/results/2025_model_evaluation.csv
+      hash: md5
+      md5: 3d61d69ea02e7311e7fb849731696090
+      size: 971
+    - path: ML/DemandForecasting/results/metrics.json
+      hash: md5
+      md5: 873a877e2d24351f63b4255092849606
+      size: 182
+  final_model_training:
+    cmd: python ML/DemandForecasting/final_train.py
+    deps:
+    - path: ML/DemandForecasting/feature_engineering.py
+      hash: md5
+      md5: fa292b8bf7015e040c34e8ada7648414
+      size: 1397
+    - path: ML/DemandForecasting/final_train.py
+      hash: md5
+      md5: bc5fe4c4365b8522757fcee79c8ae03c
+      size: 9553
+    - path: data/processed/order_items_processed.csv
+      hash: md5
+      md5: 179cebb605aae2d51c7780d7edd5068c
+      size: 21662736
+    - path: data/processed/orders_processed.csv
+      hash: md5
+      md5: 7451b9806f353af91a83c4559fe87e9f
+      size: 17079782
+    - path: data/processed/products_processed.csv
+      hash: md5
+      md5: 16963e96ab25342eefa7b71cb397f740
+      size: 85333
+    outs:
+    - path: ML/DemandForecasting/models/final_demand_forecasting_elasticnet.pkl
+      hash: md5
+      md5: 65eaf3ee3a5e01c64acfdc2f5d6530db
+      size: 24400
+  demand_forecast:
+    cmd: python ML/DemandForecasting/forecast.py
+    deps:
+    - path: ML/DemandForecasting/feature_engineering.py
+      hash: md5
+      md5: fa292b8bf7015e040c34e8ada7648414
+      size: 1397
+    - path: ML/DemandForecasting/forecast.py
+      hash: md5
+      md5: 3fadfe4bbdf371b6bd90f743947f0e57
+      size: 12216
+    - path: ML/DemandForecasting/models/final_demand_forecasting_elasticnet.pkl
+      hash: md5
+      md5: 65eaf3ee3a5e01c64acfdc2f5d6530db
+      size: 24400
+    - path: data/processed/order_items_processed.csv
+      hash: md5
+      md5: 179cebb605aae2d51c7780d7edd5068c
+      size: 21662736
+    - path: data/processed/orders_processed.csv
+      hash: md5
+      md5: 7451b9806f353af91a83c4559fe87e9f
+      size: 17079782
+    - path: data/processed/products_processed.csv
+      hash: md5
+      md5: 16963e96ab25342eefa7b71cb397f740
+      size: 85333
+    outs:
+    - path: ML/DemandForecasting/results/2026_demand_forecast.csv
+      hash: md5
+      md5: 1d6082b047dd1c4a2c9adade38de447c
+      size: 11819165
+  inventory_planning:
+    cmd: python ML/inventory_planning/inventory_planning.py
+    deps:
+    - path: ML/DemandForecasting/results/2026_demand_forecast.csv
+      hash: md5
+      md5: 1d6082b047dd1c4a2c9adade38de447c
+      size: 11819165
+    - path: ML/inventory_planning/inventory_planning.py
+      hash: md5
+      md5: 9db08392f6255ced95fe915b0ce86134
+      size: 4277
+    outs:
+    - path: ML/inventory_planning/results/inventory_plan_2026.csv
+      hash: md5
+      md5: 74f9f431f15ea093b39082c75a8ebf66
+      size: 39203

@@ -17,8 +17,8 @@ app = FastAPI(
 origin = [
     "http://localhost:5173",
     "https://indian-ecom-analytics-frontend.vercel.app",
-    "indian-ecom-analytics-fron-git-13d479-durgaprasad-237s-projects.vercel.app"
-    "indian-ecom-analytics-frontend-jesok3hlr.vercel.app"
+    "indian-ecom-analytics-fron-git-13d479-durgaprasad-237s-projects.vercel.app",
+    "indian-ecom-analytics-frontend-jesok3hlr.vercel.app",
 ]
 
 app.add_middleware(

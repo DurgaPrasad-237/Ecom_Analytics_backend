@@ -1,5 +1,8 @@
 venv/
-# data/
+data/
+ML/DemandForecasting/models/
+ML/DemandForecasting/results/
+ML/inventory_planning/results/
 .streamlit/
 .env
 .vscode/

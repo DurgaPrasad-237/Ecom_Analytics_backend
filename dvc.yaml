@@ -65,9 +65,9 @@ stages:
       - ML/DemandForecasting/models/xgboost_tuned.pkl
 
   model_evaluation:
-    cmd: python ML/DemandForecasting/evaluate.py
+    cmd: python ML/DemandForecasting/evaluation.py
     deps:
-      - ML/DemandForecasting/evaluate.py
+      - ML/DemandForecasting/evaluation.py
       - ML/DemandForecasting/models/linear_regression_baseline.pkl
       - ML/DemandForecasting/models/ridge_baseline.pkl
       - ML/DemandForecasting/models/lasso_baseline.pkl
