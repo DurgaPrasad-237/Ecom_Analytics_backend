@@ -10,3 +10,10 @@ Notebook/
 __pycache__/
 *.pyc
 app/
+
+# DVC local configuration
+.dvc/config
+
+# MLflow local tracking
+mlflow.db
+mlruns/
