@@ -233,9 +233,17 @@ latest_actual_date = data["order_date"].max()
 
 forecast_start = latest_actual_date + pd.Timedelta(days=1)
 
+forecast_year = forecast_start.year
+
+forecast_end = pd.Timestamp(
+    year=forecast_year,
+    month=12,
+    day=31
+)
+
 future_dates = pd.date_range(
     start=forecast_start,
-    end="2026-12-31",
+    end=forecast_end,
     freq="D"
 )
 
