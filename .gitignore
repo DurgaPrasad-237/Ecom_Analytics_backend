@@ -10,6 +10,7 @@ Notebook/
 __pycache__/
 *.pyc
 app/
+secrets/
 
 # DVC local configuration
 .dvc/config
