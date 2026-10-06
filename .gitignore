@@ -11,6 +11,7 @@ __pycache__/
 *.pyc
 app/
 secrets/
+ErrorGuide/
 
 # DVC local configuration
 .dvc/config
