@@ -1,0 +1,124 @@
+name: CI  # it is name of the workflow
+
+# this mean when to run this workflow
+# in this case it will run on push and pull req to main branch
+on:
+# You
+#  ↓
+# git add .
+# git commit -m "fix API"
+# git push origin main
+#  ↓
+# GitHub
+#  ↓
+# CI starts
+  push:
+    branches: [main]
+# feature branch
+#       ↓
+# Pull Request
+#       ↓
+# main
+#       ↓
+# CI runs  
+# this is useful to run CI on PRs to main branch, so that we can catch issues before merging
+  pull_request:
+    branches: [main]
+
+# A GitHub Actions workflow contains one or more jobs.
+jobs:
+# test is the name of the job you can name it anything you want
+  test:
+# this job run on ubuntu latest version, you can also use windows or macos
+# Give me a temporary Ubuntu Linux machine to execute this job.
+# we dont need to create a vm , github will create a temp vm for us to run this job
+
+# GitHub
+#    |
+#    | creates temporary machine
+#    ↓
+# Ubuntu
+#    |
+#    | runs your CI steps
+#    ↓
+# destroyed after workflow
+    runs-on: ubuntu-latest
+
+# a job contains a sequence of tasks called steps
+# each step can run a script or an action
+# these are mys teps
+# 1. Checkout code
+# 2. Setup Python
+# 3. Install dependencies
+# 4. Check dependencies
+    steps:
+# bascially ubantu starts with empty so it need a project
+# GitHub repository
+#        ↓
+# actions/checkout ->is an existing GitHub Action created for checking out repository code.
+# after the checkout step the cdoe will be available inthe ubuntu machine and we can run our test on it
+# wiht out checkout runner does not repo files and we will get error like "No such file or directory"
+#        ↓
+# Ubuntu runner
+#        ↓
+# your project files
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+# Install/use Python 3.11 on this runner.
+# Ubuntu
+#   ↓
+# Install Python 3.11
+#   ↓
+# Python environment ready
+      - name: Set up Python
+        uses: actions/setup-python@v5
+# provides configuration to the action.
+        with:
+          python-version: "3.11"
+
+# here we use run means  execuaate a shell command on the github runner
+# Checkout project
+#       ↓
+# Setup Python 3.11
+#       ↓
+# Read requirements.txt
+#       ↓
+# Install packages
+#       ↓
+# Environment ready
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+# This is checking whether your installed Python packages have dependency conflicts.
+# Package A requires numpy>=2.0
+# Package B requires numpy<2.0
+
+# That could cause a dependency conflict.
+# pip check looks for broken dependency requirements.
+# If everything is okay:
+# No broken requirements found.
+      - name: Check dependencies
+        run: pip check
+
+
+# complete workflow diagram
+# Developer pushes code
+#         ↓
+# GitHub detects push to main
+#         ↓
+# Start Ubuntu runner
+#         ↓
+# Checkout repository
+#         ↓
+# Install Python 3.11
+#         ↓
+# Install requirements.txt
+#         ↓
+# Run pip check
+#         ↓
+#        ┌───────────────┐
+#        │               │
+#     Everything OK   Problem
+#        │               │
+#        ↓               ↓
+#     CI ✅            CI ❌
