@@ -100,6 +100,21 @@ jobs:
       - name: Check dependencies
         run: pip check
 
+      - name: Install DVC
+        run: pip install dvc-gdrive 
+
+      - name: Configure DVC
+        env:
+          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
+        run: |
+          mkdir -p .dvc/site-cache
+          dvc remote modify storage gdrive_use_service_account false
+
+      - name: Pull DVC data
+        env:
+          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
+        run: dvc pull --force
+
       - name: Run tests
         run: pytest test/test_api.py
 
