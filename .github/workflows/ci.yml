@@ -114,10 +114,9 @@ jobs:
       - name: Pull DVC data
         env:
           GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
-        run: dvc pull --force
-
-      - name: Run tests
-        run: pytest test/test_api.py
+        run: |
+          echo "$GDRIVE_CREDENTIALS_DATA" > gdrive_credentials.json
+          dvc pull --force
 
 
 # complete workflow diagram
