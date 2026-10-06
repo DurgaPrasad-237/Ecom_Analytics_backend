@@ -108,6 +108,7 @@ jobs:
           GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
         run: |
           mkdir -p .dvc/site-cache
+          dvc remote add -d storage gdrive://1JySsPvaGkm_hjPe1NdJEe-47OrKBWdx1
           dvc remote modify storage gdrive_use_service_account false
 
       - name: Pull DVC data
