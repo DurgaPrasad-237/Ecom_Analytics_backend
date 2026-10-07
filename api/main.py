@@ -40,6 +40,11 @@ def root():
         "message": "Indian E-Commerce Analytics API is running"
     }
 
+@app.get("/test")
+def test():
+    return {
+        "message":"added this api for test the pull request and how ci works"
+    }
 
 app.include_router(customer.router)
 app.include_router(products.router)
