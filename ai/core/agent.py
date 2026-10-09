@@ -39,6 +39,27 @@ from ai.sales.prompts import (
     INSTRUCTION_CONTENT as SALES_INSTRUCTION_CONTENT
     
 )
+from ai.demandforecasting.tools import (
+    DEMAND_FORECASTING_TOOLS,
+    DEMAND_FORECASTING_TOOL_FUNCTIONS,
+)
+
+from ai.demandforecasting.prompts import (
+    INSTRUCTION_CONTENT as DEMAND_FORECASTING_INSTRUCTION_CONTENT,
+    ANSWER_INSTRUCTION as DEMAND_FORECASTING_ANSWER_INSTRUCTION,
+    INSIGHT_INSTRUCTION as DEMAND_FORECASTING_INSIGHT_INSTRUCTION,
+)
+
+from ai.inventory_planning.tools import (
+    INVENTORY_PLANNING_TOOLS,
+    INVENTORY_PLANNING_TOOL_FUNCTIONS,
+)
+
+from ai.inventory_planning.prompts import (
+    INSTRUCTION_CONTENT as INVENTORY_PLANNING_INSTRUCTION_CONTENT,
+    ANSWER_INSTRUCTION as INVENTORY_PLANNING_ANSWER_INSTRUCTION,
+    INSIGHT_INSTRUCTION as INVENTORY_PLANNING_INSIGHT_INSTRUCTION,
+)
 
 class Agent:
 
@@ -96,12 +117,33 @@ class Agent:
             }
 
         elif self.domain == "sales":
+
             return {
                 "tools": SALES_TOOLS,
                 "tool_functions": SALES_TOOL_FUNCTIONS,
                 "instruction": SALES_INSTRUCTION_CONTENT,
                 "answer_instruction": SALES_ANSWER_INSTRUCTION,
-                "insight_instruction": SALES_INSIGHT_INSTRUCTION
+                "insight_instruction": SALES_INSIGHT_INSTRUCTION,
+            }
+
+        elif self.domain == "demandforecast":
+
+            return {
+                "tools": DEMAND_FORECASTING_TOOLS,
+                "tool_functions": DEMAND_FORECASTING_TOOL_FUNCTIONS,
+                "instruction": DEMAND_FORECASTING_INSTRUCTION_CONTENT,
+                "answer_instruction": DEMAND_FORECASTING_ANSWER_INSTRUCTION,
+                "insight_instruction": DEMAND_FORECASTING_INSIGHT_INSTRUCTION,
+            }
+
+        elif self.domain == "inventory_planning":
+
+            return {
+                "tools": INVENTORY_PLANNING_TOOLS,
+                "tool_functions": INVENTORY_PLANNING_TOOL_FUNCTIONS,
+                "instruction": INVENTORY_PLANNING_INSTRUCTION_CONTENT,
+                "answer_instruction": INVENTORY_PLANNING_ANSWER_INSTRUCTION,
+                "insight_instruction": INVENTORY_PLANNING_INSIGHT_INSTRUCTION,
             }
 
         else:
@@ -206,7 +248,8 @@ class Agent:
             }
 
         try:
-
+            print("TOOL NAME:", tool_name)
+            print("TOOL ARGUMENTS:", arguments)
             function = tool_functions[
                 tool_name
             ]
