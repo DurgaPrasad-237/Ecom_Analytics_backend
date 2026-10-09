@@ -118,6 +118,10 @@ jobs:
           echo "$GDRIVE_CREDENTIALS_DATA" > gdrive_credentials.json
           dvc pull --force
 
+        # Build the Docker image to verify the Dockerfile
+      - name: Build Docker image
+        run: docker build -t ecommerce-analytics-api:ci .
+
 
 # complete workflow diagram
 # Developer pushes code

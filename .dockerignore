@@ -1,0 +1,32 @@
+
+# Python virtual environment and cache
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Secrets and environment files
+.env
+.env.*
+!.env.example
+secrets/
+
+# Development tools
+.vscode/
+.git/
+.github/
+
+# Notebooks and guides
+Notebook/
+Guide/
+
+# Streamlit configuration (if not needed by the API)
+.streamlit/
+
+# ML results and local tracking
+mlflow.db
+mlruns/
+
+# DVC local cache and temporary files
+.dvc/cache/
+.dvc/tmp/

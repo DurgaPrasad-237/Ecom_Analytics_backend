@@ -75,6 +75,17 @@ async def customerChat(data: ChatRequest):
 
     return result
 
+@router.post("/test_customer-chat")
+async def test_customerChat(request: ChatRequest):
+
+    result = customer_agent.ask(
+        question=request.question,
+        chat_history=request.chat_history,
+        provider="openai",
+    )
+
+    return result
+
 
 # ============================================================
 # PRODUCT CHAT

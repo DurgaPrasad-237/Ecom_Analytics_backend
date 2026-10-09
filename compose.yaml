@@ -1,0 +1,8 @@
+services:
+  api:
+    build: .
+    container_name: ecommerce-api
+    ports:
+      - "8000:8000"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}   
