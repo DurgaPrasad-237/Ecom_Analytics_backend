@@ -4,7 +4,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes import customer,products,sales,ai
+from api.routes import customer,products,sales,ai,demandforecasting,inventoryplanning
 
 
 
@@ -50,3 +50,5 @@ app.include_router(customer.router)
 app.include_router(products.router)
 app.include_router(sales.router)
 app.include_router(ai.router)
+app.include_router(demandforecasting.router)
+app.include_router(inventoryplanning.router)
