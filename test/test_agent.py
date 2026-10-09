@@ -8,11 +8,11 @@ load_dotenv()
 
 agent = Agent(
     openai_api_key=os.getenv("OPENAI_API_KEY"),
-    domain="customer"
+    domain="demandforecast"
 )
 
 result = agent.ask(
-    question="How many customers we have?",
+    question="What is the forecasted demand for 2026?",
     provider="openai"
 )
 
